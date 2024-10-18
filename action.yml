@@ -1,0 +1,30 @@
+name: "JetBrains Space Notification Action"
+description: "Sends notifications to JetBrains Space"
+author: "Richard Coker"
+inputs:
+  space_url:
+    description: "The URL of the JetBrains Space account"
+    required: true
+  auth_token:
+    description: 'The authentication token for JetBrains Space API.'
+    required: true
+  channel_id:
+    description: 'The channel ID to which the message will be sent.'
+    required: true
+  message:
+    description: 'The message to send to the JetBrains Space channel.'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run Go code
+      run: |
+        cd cmd
+        go run main.go
+      shell: bash
+      env:
+        SPACE_URL: ${{ inputs.space_url }}
+        AUTH_TOKEN: ${{ inputs.auth_token }}
+        CHANNEL_ID: ${{ inputs.channel_id }}
+        MESSAGE: ${{ inputs.message }}
